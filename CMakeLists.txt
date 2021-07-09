@@ -14,7 +14,7 @@ file(GLOB CPU_SRCS
 
 set(LIB_INCLUDE ${SRC_DIR}/core)
 
-add_library(loop_tool SHARED ${CORE_SRCS})
+add_library(loop_tool STATIC ${CORE_SRCS})
 target_include_directories(loop_tool PUBLIC ${LIB_INCLUDE})
 
 list(APPEND CMAKE_MODULE_PATH "${SRC_DIR}/backends/cuda")
@@ -23,7 +23,7 @@ if (CUDAToolkit_FOUND)
   message("Found CUDA toolkit version ${CUDAToolkit_VERSION}")
   file(GLOB CUDA_SRCS ${SRC_DIR}/backends/cuda/*.cpp)
 
-  add_library(loop_tool_cuda SHARED ${CUDA_SRCS})
+  add_library(loop_tool_cuda STATIC ${CUDA_SRCS})
   target_include_directories(loop_tool_cuda PUBLIC ${LIB_INCLUDE} ${SRC_DIR}/backends/cuda ${CUDAToolkit_INCLUDE_DIRS})
   target_link_libraries(loop_tool_cuda CUDA::cudart_static CUDA::nvrtc)
 endif()

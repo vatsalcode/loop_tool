@@ -7,7 +7,7 @@ import subprocess
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
-import pybind11
+
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
 PLAT_TO_CMAKE = {
@@ -26,6 +26,7 @@ class CMakeExtension(Extension):
 
 class CMakeBuild(build_ext):
     def build_extension(self, ext):
+        import pybind11
         extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
 
         # required for auto-detection of auxiliary "native" libs
@@ -107,6 +108,9 @@ setup(
     description="A lightweight IR for dense linear algebra",
     long_description="",
     ext_modules=[CMakeExtension("cmake_example")],
+    install_requires=['pybind11'],
+    setup_requires=['pybind11'],
+    include_package_data=True,
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
 )
